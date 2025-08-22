@@ -3,7 +3,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Идеи от гуру</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +32,7 @@ body{
 @media (max-width: 768px) {
   body {
     padding: 10px;
-    font-size: 14px;
+    font-size: 16px;
     -webkit-text-size-adjust: 100%;
   }
   h1 {
@@ -89,12 +89,14 @@ body{
     margin-bottom: 20px;
     max-height: calc(100vh - 250px);
     overflow-x: auto;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     border-radius: 8px;
+    width: 100%;
   }
   table {
-    min-width: 800px;
     width: 100%;
+    min-width: 100%;
   }
   thead th, tbody td {
     padding: 10px 8px;
@@ -153,6 +155,10 @@ body{
   body {
     overflow-x: hidden;
     width: 100%;
+  }
+  /* Ensure table cells take full width */
+  .rwd-table, .rwd-table tbody, .rwd-table tr, .rwd-table td {
+    box-sizing: border-box;
   }
   
   /* Improve table readability */
@@ -246,54 +252,64 @@ button.filter.active{
   color:#FFFFFF;
   border-color:var(--accent);
 }
-.table-wrap{
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  border:1px solid var(--border);
-  border-radius:11.2px;
-  background:var(--card);
-  margin-bottom:32px;
-  max-height: calc(100vh - 200px);
-}
-table{
+.rwd-table{
   width:100%;
-  border-collapse:separate;
-  border-spacing:0;
-  min-width:1000px;
-  table-layout: fixed;
+  border-collapse:collapse;
+  font:14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
-thead th{
-  position:sticky;
-  top:0;
-  background:var(--card);
-  color:var(--text);
+.rwd-table th, .rwd-table td{
+  padding:10px 12px;
+  border-bottom:1px solid #e7e7e7;
+  vertical-align:top;
+}
+.rwd-table th{
   text-align:left;
-  padding:12.8px 16px;
-  border-bottom:2px solid var(--border);
-  font-family:Arial, sans-serif;
-  font-weight:700;
-  font-size:12.8px;
-  line-height:14.64px;
-  text-transform:uppercase;
-  white-space:nowrap;
-  z-index:10;
+  font-weight:600;
+  background:#fafafa;
 }
-/* Выравнивание заголовков числовых столбцов по центру */
-thead th:nth-child(4),
-thead th:nth-child(5),
-thead th:nth-child(6) {
-  text-align: center;
+.rwd-table tbody tr:hover{
+  background:#fcfcfc;
 }
-tbody td{
-  padding:12.8px 16px;
-  border-bottom:1px solid var(--border);
-  vertical-align:middle;
-  font-family:Arial, sans-serif;
-  font-weight:400;
-  font-size:12.8px;
-  line-height:1.2;
-  white-space: nowrap;
-  word-wrap: break-word;
+
+/* десктоп: правый край для числовых колонок */
+@media (min-width: 801px){
+  .num { 
+    text-align:right; 
+    font-variant-numeric: tabular-nums; 
+  }
+}
+
+@media (max-width: 800px) { 
+  .rwd-table thead {
+    display: none;
+  }
+  .rwd-table, .rwd-table tbody, .rwd-table tr, .rwd-table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .rwd-table tr {
+    margin-bottom: 15px;
+    border-bottom: 2px solid #e7e7e7;
+  }
+  .rwd-table td {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    word-break: break-word;
+    padding: 12px 15px;
+    border-bottom: 1px solid #f1f1f1;
+    text-align: center;
+  }
+  .rwd-table td:last-child {
+    border-bottom: 0;
+  }
+  .rwd-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
+  }
 }
 .bold-emitent {
   font-weight: 700;
@@ -450,7 +466,7 @@ tfoot td{
     </div>
   </div>
   <div class="table-wrap">
-    <table id="signals">
+    <table id="signals" class="rwd-table">
       <thead>
         <tr>
           <th>Дата открытия</th>
@@ -2522,6 +2538,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const data = JSON.parse(document.getElementById('data').textContent);
   const expectedKeys = ["Дата открытия","Эмитент","Комментарий","Цена открытия","Цена закрытия","Результат","Срок"];
   const tbody = document.querySelector('#signals tbody');
+  const tbodyEl = tbody; // Add reference for search functionality
   function badgeClass(t){
     const s=(t||'').toLowerCase();
     if(s==='рост') return 'badge-up';
@@ -2559,14 +2576,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const res=(row['Результат']||'').toString().trim();
     const resHtml = res ? (res.startsWith('-')?`<span class='negative'>${res}</span>`:`<span class='positive'>${res}</span>`) : '';
     tr.innerHTML = `
-      <td class="cell-date" data-sort="${dateSortVal(row['Дата открытия'])}">${row['Дата открытия']||''}</td>
-      <td class="bold-emitent">${row['Эмитент']||''}</td>
-      <td><span class="badge ${badgeClass(row['Комментарий'])}">${row['Комментарий']||''}</span></td>
-      <td class="cell-num" data-sort="${numSortVal(row['Цена открытия'])}">${row['Цена открытия']??''}</td>
-      <td class="cell-num" data-sort="${numSortVal(row['Цена закрытия'])}">${row['Цена закрытия']??''}</td>
-      <td class="cell-num" data-sort="${numSortVal(row['Результат'])}">${resHtml}</td>
-      <td style="white-space: nowrap">${row['Срок']||''}</td>
-      <td><span class="status ${statusClass}">${status}</span></td>`;
+      <td class="cell-date" data-sort="${dateSortVal(row['Дата открытия'])}" data-label="Дата открытия">${row['Дата открытия']||''}</td>
+      <td class="bold-emitent" data-label="Эмитент">${row['Эмитент']||''}</td>
+      <td data-label="Комментарий"><span class="badge ${badgeClass(row['Комментарий'])}">${row['Комментарий']||''}</span></td>
+      <td class="cell-num num" data-sort="${numSortVal(row['Цена открытия'])}" data-label="Цена открытия">${row['Цена открытия']??''}</td>
+      <td class="cell-num num" data-sort="${numSortVal(row['Цена закрытия'])}" data-label="Цена закрытия">${row['Цена закрытия']??''}</td>
+      <td class="cell-num" data-sort="${numSortVal(row['Результат'])}" data-label="Результат">${resHtml}</td>
+      <td style="white-space: nowrap" data-label="Срок">${row['Срок']||''}</td>
+      <td data-label="Статус"><span class="status ${statusClass}">${status}</span></td>`;
     tbody.appendChild(tr);
   });
   // KPIs
@@ -2580,11 +2597,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // search
   const searchBox=document.getElementById('searchBox');
-  searchBox.addEventListener('input',()=>{
-    const q=searchBox.value.trim().toLowerCase();
-    Array.from(tbodyEl.querySelectorAll('tr')).forEach(tr=>{
-      const text=tr.textContent.toLowerCase();
-      tr.style.display = text.includes(q)?'table-row':'none';
+  searchBox.addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    const rows = tbody.querySelectorAll('tr');
+    rows.forEach(tr => {
+      const text = tr.textContent.toLowerCase();
+      tr.style.display = text.includes(q) ? '' : 'none';
     });
   });
 
@@ -2599,23 +2617,60 @@ document.addEventListener('DOMContentLoaded', function() {
       applyFilters();
     });
   });
-  function applyFilters(){
-    const rows=Array.from(tbodyEl.querySelectorAll('tr'));
-    rows.forEach(tr=>{
-      tr.style.display='';
-      const status=tr.dataset.status; const comment=tr.dataset.comment||'';
-      if(activeFilter==='all') return;
-      if(activeFilter==='open' && status!=='open') tr.style.display='none';
-      else if(activeFilter==='closed' && status!=='closed') tr.style.display='none';
-      else if(activeFilter.startsWith('comment:')){
-        const key=activeFilter.split(':')[1];
-        if(key==='див'){ if(!comment.includes('дивиден')) tr.style.display='none'; }
-        else if(!comment.includes(key)) tr.style.display='none';
+  function applyFilters() {
+    const rows = tbody.querySelectorAll('tr');
+    const searchQuery = searchBox.value.trim().toLowerCase();
+    
+    rows.forEach(tr => {
+      const status = tr.dataset.status;
+      const comment = tr.dataset.comment || '';
+      const text = tr.textContent.toLowerCase();
+      
+      // Apply filter
+      let shouldShow = true;
+      if (activeFilter !== 'all') {
+        if (activeFilter === 'open' && status !== 'open') shouldShow = false;
+        else if (activeFilter === 'closed' && status !== 'closed') shouldShow = false;
+        else if (activeFilter.startsWith('comment:')) {
+          const key = activeFilter.split(':')[1];
+          if (key === 'див') { 
+            if (!comment.includes('дивиден')) shouldShow = false; 
+          }
+          else if (!comment.includes(key)) shouldShow = false;
+        }
       }
+      
+      // Apply search
+      if (shouldShow && searchQuery && !text.includes(searchQuery)) {
+        shouldShow = false;
+      }
+      
+      tr.style.display = shouldShow ? '' : 'none';
     });
   }
 })();
 });
 </script>
+<noscript>
+  <div class="table-wrap">
+    <table class="rwd-table">
+      <thead>
+        <tr>
+          <th>Дата открытия</th>
+          <th>Эмитент</th>
+          <th>Комментарий</th>
+          <th>Цена открытия</th>
+          <th>Цена закрытия</th>
+          <th>Результат</th>
+          <th>Срок</th>
+          <th>Статус</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- You can add static data here as a fallback -->
+      </tbody>
+    </table>
+  </div>
+</noscript>
 </body>
 </html>
