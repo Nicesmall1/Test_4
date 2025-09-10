@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Сделки</title>
+<title>Сделки «Идеи от Гуру»</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -28,16 +28,12 @@ body{
   font-size:12.8px;
   line-height:1;
 }
-
-/* Показывать/скрывать фрагменты в зависимости от вьюпорта */
 .only-mobile { display: none; }
 .desktop-only { display: inline; }
 @media (max-width: 800px) {
   .only-mobile { display: inline-block; }
   .desktop-only { display: none; }
 }
-
-/* Мелкие мобильные доработки — ПОЧИНЕНО: 350px (не 350x) */
 @media (max-width: 350px) {
   body { padding: 10px; font-size: 16px; -webkit-text-size-adjust: 100%; }
   h1 { font-size: 28px; line-height: 1.2; margin: 0 0 20px; text-align: center; }
@@ -104,13 +100,11 @@ button.filter.active{ background:var(--accent); color:#FFFFFF; border-color:var(
 .rwd-table th{ text-align:left; font-weight:600; background:#fafafa; }
 .rwd-table tbody tr:hover{ background:#fcfcfc; }
 
-/* десктоп: правый край для числовых колонок */
 @media (min-width: 801px){
   .num { text-align:right; font-variant-numeric: tabular-nums; }
 }
 
 @media (max-width: 800px) {
-  /* Скрываем шапку и делаем карточки */
   .rwd-table thead { display: none; }
   .rwd-table tr {
     display: grid;
@@ -122,25 +116,15 @@ button.filter.active{ background:var(--accent); color:#FFFFFF; border-color:var(
   }
   .rwd-table td { padding: 0; border: none; }
   .rwd-table td::before { content: ""; display: none; }
-
-  /* По умолчанию скрываем все ячейки */
   .rwd-table td { display: none; }
-
-  /* Показываем Эмитент (1), Результат (6) и Срок (7) */
   .rwd-table td:nth-child(1),
   .rwd-table td:nth-child(6),
   .rwd-table td:nth-child(7) { display: block; }
-
-  /* Размещение */
   .rwd-table td:nth-child(1) { grid-column: 1; }
   .rwd-table td:nth-child(6),
   .rwd-table td:nth-child(7) { grid-column: 2; text-align: right; }
-
-  /* Внешний вид правой колонки */
   .rwd-table td:nth-child(6) { font-size: 16px; font-weight: 500; }
   .rwd-table td:nth-child(7) { font-size: 13px; color: #666666; margin-top: -25px; }
-
-  /* Открытые сделки: показываем статус справа */
   .rwd-table tr[data-status="open"] td:nth-child(6) { 
     grid-column: 2; 
     text-align: right; 
@@ -155,7 +139,6 @@ button.filter.active{ background:var(--accent); color:#FFFFFF; border-color:var(
   .rwd-table tr[data-status="open"] td:nth-child(6) > * {
     display: none;
   }
-  /* Для дивидендов/купонов на мобильных: показываем обе ячейки (6 и 7) справа */
   .rwd-table tr[data-comment*="дивиден"] td:nth-child(6),
   .rwd-table tr[data-comment*="купон"] td:nth-child(6),
   .rwd-table tr[data-comment*="дивиден"] td:nth-child(7),
@@ -164,25 +147,18 @@ button.filter.active{ background:var(--accent); color:#FFFFFF; border-color:var(
     grid-column: 2; 
     text-align: right; 
   }
-  
-  /* Стили для цены закрытия (ячейка 6) */
   .rwd-table tr[data-comment*="дивиден"] td:nth-child(6),
   .rwd-table tr[data-comment*="купон"] td:nth-child(6) { 
     font-size: 16px; 
     font-weight: 500; 
     margin-bottom: 0px;
   }
-  
-  /* Стили для комментария (ячейка 7) - такой же как у срока */
   .rwd-table tr[data-comment*="дивиден"] td:nth-child(7),
   .rwd-table tr[data-comment*="купон"] td:nth-child(7) { 
     font-size: 13px; 
     color: #666666; 
     margin-top: -5px;
   }
-
-  /* ВАЖНО: старую синюю подсветку для дивидендов/купона убрали.
-     Внешний вид теперь задаёт .status.open (как у «ОТКРЫТА»). */
 }
 /* Ячейки/стили */
 .cell-num{
@@ -211,7 +187,7 @@ th.sortable{ cursor:pointer; }
   padding:6.4px 9.6px; border-radius:10px;
   font-family:"San Francisco Pro", -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight:500; font-size:12.8px;
-  line-height:14px; /* ПОЧИНЕНО: нормальное значение */
+  line-height:14px;
   text-transform:uppercase;
   display:inline-block;
 }
@@ -291,7 +267,6 @@ tfoot td{
 </div>
 
 <script>
-  // Лого по тикерам (можно дополнять)
   const logos = {
     'SBER': 'https://mybroker.storage.bcs.ru/FinInstrumentLogo/SBER.png',
     'T': 'https://mybroker.storage.bcs.ru/FinInstrumentLogo/T.png',
@@ -351,16 +326,132 @@ tfoot td{
 <script id="data" type="application/json">
 [
   {
+    "Эмитент": "АЭРОФЛОТ",
+    "Дата открытия": "02.09.2025",
+    "Тикер": "AFLT",
+    "Цена открытия": 60.33,
+    "Комментарий": "ПАДЕНИЕ",
+    "Цель": 57,
+    "Цена закрытия": "",
+    "Дата закрытия": "Открыта",
+    "Результат": "",
+    "Срок": "В работе",
+    "": "",
+    "__1": "",
+    "__2": "",
+    "__3": "",
+    "__4": "",
+    "__5": "",
+    "__6": "",
+    "__7": "",
+    "__8": "",
+    "__9": "",
+    "__10": "",
+    "__11": "",
+    "__12": "",
+    "__13": "",
+    "__14": "",
+    "__15": "",
+    "__16": ""
+  },
+  {
+    "Эмитент": "Лукойл",
+    "Дата открытия": "29.08.2025",
+    "Тикер": "LKOH",
+    "Цена открытия": 6546.5,
+    "Комментарий": "РОСТ",
+    "Цель": 6873,
+    "Цена закрытия": "",
+    "Дата закрытия": "Открыта",
+    "Результат": "",
+    "Срок": "В работе",
+    "": "",
+    "__1": "",
+    "__2": "",
+    "__3": "",
+    "__4": "",
+    "__5": "",
+    "__6": "",
+    "__7": "",
+    "__8": "",
+    "__9": "",
+    "__10": "",
+    "__11": "",
+    "__12": "",
+    "__13": "",
+    "__14": "",
+    "__15": "",
+    "__16": ""
+  },
+  {
+    "Эмитент": "ВУШ Холдинг ао",
+    "Дата открытия": "27.08.2025",
+    "Тикер": "WUSH",
+    "Цена открытия": 131.52,
+    "Комментарий": "ПАДЕНИЕ",
+    "Цель": 125,
+    "Цена закрытия": "",
+    "Дата закрытия": "Открыта",
+    "Результат": "",
+    "Срок": "В работе",
+    "": "",
+    "__1": "",
+    "__2": "",
+    "__3": "",
+    "__4": "",
+    "__5": "",
+    "__6": "",
+    "__7": "",
+    "__8": "",
+    "__9": "",
+    "__10": "",
+    "__11": "",
+    "__12": "",
+    "__13": "",
+    "__14": "",
+    "__15": "",
+    "__16": ""
+  },
+  {
+    "Эмитент": "МТС-Банк ао",
+    "Дата открытия": "27.08.2025",
+    "Тикер": "MBNK",
+    "Цена открытия": 1418,
+    "Комментарий": "РОСТ",
+    "Цель": 1488,
+    "Цена закрытия": "",
+    "Дата закрытия": "Открыта",
+    "Результат": "",
+    "Срок": "В работе",
+    "": "",
+    "__1": "",
+    "__2": "",
+    "__3": "",
+    "__4": "",
+    "__5": "",
+    "__6": "",
+    "__7": "",
+    "__8": "",
+    "__9": "",
+    "__10": "",
+    "__11": "",
+    "__12": "",
+    "__13": "",
+    "__14": "",
+    "__15": "",
+    "__16": ""
+  },
+  {
     "Эмитент": "ОФЗ 26247",
     "Дата открытия": "22.08.2025",
     "Тикер": "OFZ",
     "Цена открытия": 946.46,
     "Комментарий": "РОСТ",
     "Цель": "",
-    "Цена закрытия": "",
-    "Дата закрытия": "Открыта",
-    "Результат": "",
-    "Срок": "В работе",
+    "Цена закрытия": 955.88,
+    "Дата закрытия": "09.09.2025",
+    "Результат": "1.00%",
+    "Срок": "18 дней",
     "": "",
     "__1": "",
     "__2": "",
@@ -386,10 +477,10 @@ tfoot td{
     "Цена открытия": 628.81,
     "Комментарий": "РОСТ",
     "Цель": "",
-    "Цена закрытия": "",
-    "Дата закрытия": "Открыта",
-    "Результат": "",
-    "Срок": "В работе",
+    "Цена закрытия": 628.78,
+    "Дата закрытия": "09.09.2025",
+    "Результат": "0.00%",
+    "Срок": "18 дней",
     "": "",
     "__1": "",
     "__2": "",
@@ -647,10 +738,10 @@ tfoot td{
     "Цена открытия": 77.8,
     "Комментарий": "РОСТ",
     "Цель": 81.69,
-    "Цена закрытия": "",
-    "Дата закрытия": "Открыта",
-    "Результат": "",
-    "Срок": "В работе",
+    "Цена закрытия": 74.73,
+    "Дата закрытия": "09.09.2025",
+    "Результат": "-3.95%",
+    "Срок": "40 дней",
     "": "",
     "__1": "",
     "__2": "",
@@ -815,7 +906,36 @@ tfoot td{
     "__16": ""
   },
   {
-    "Эмитент": "НЛМК шорт",
+    "Эмитент": "ИНТЕР РАО",
+    "Дата открытия": "14.11.2024",
+    "Тикер": "IRAO",
+    "Цена открытия": "",
+    "Комментарий": "Дивиденды",
+    "Цель": "",
+    "Цена закрытия": "1 337.2",
+    "Дата закрытия": "",
+    "Результат": "",
+    "Срок": "",
+    "": "",
+    "__1": "",
+    "__2": "",
+    "__3": "",
+    "__4": "",
+    "__5": "",
+    "__6": "",
+    "__7": "",
+    "__8": "",
+    "__9": "",
+    "__10": "",
+    "__11": "",
+    "__12": "",
+    "__13": "",
+    "__14": "",
+    "__15": "",
+    "__16": ""
+  },
+  {
+    "Эмитент": "НЛМК",
     "Дата открытия": "24.06.2025",
     "Тикер": "NLMK",
     "Цена открытия": 108,
@@ -1225,12 +1345,12 @@ tfoot td{
     "Дата открытия": "18.03.2025",
     "Тикер": "ALRS",
     "Цена открытия": 61.79,
-    "Комментарий": "РОСТ",
+    "Комментарий": "ТАЙМ-АУТ",
     "Цель": 64.6,
-    "Цена закрытия": "",
-    "Дата закрытия": "Открыта",
-    "Результат": "",
-    "Срок": "В работе",
+    "Цена закрытия": 47.96,
+    "Дата закрытия": "29.08.2025",
+    "Результат": "-22.38%",
+    "Срок": "164 дней",
     "": "",
     "__1": "",
     "__2": "",
@@ -2008,12 +2128,12 @@ tfoot td{
     "Дата открытия": "14.11.2024",
     "Тикер": "IRAO",
     "Цена открытия": 3.96,
-    "Комментарий": "РОСТ",
+    "Комментарий": "ТАЙМ-АУТ",
     "Цель": 4.14,
-    "Цена закрытия": "",
-    "Дата закрытия": "Открыта",
-    "Результат": "",
-    "Срок": "В работе",
+    "Цена закрытия": 3.18,
+    "Дата закрытия": "27.08.2025",
+    "Результат": "-19.70%",
+    "Срок": "286 дней",
     "": "",
     "__1": "",
     "__2": "",
@@ -2442,7 +2562,6 @@ tfoot td{
 </script>
 
 <script>
-// Рендер
 document.addEventListener('DOMContentLoaded', function() {
   if ('ontouchstart' in window) {
     document.documentElement.classList.add('touch-device');
@@ -2503,13 +2622,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
           </div>`
         : (row['Эмитент'] || '');
-
-      /* === Результат: выполняем требование ===
-         - Если комментарий Дивиденды/Купон:
-           ПК -> ничего; Мобайл -> плашка как "ОТКРЫТА" с текстом комментария
-         - Иначе: если статус Открыта -> плашка "ОТКРЫТА", иначе число/процент
-      */
-  // +++ ВСТАВЬТЕ ЭТОТ КОД ВМЕСТО СТАРОГО +++
       const commentRaw = (row['Комментарий'] ?? '').toString();
       const lc = commentRaw.toLowerCase();
       const isDivOrCoupon = lc.includes('дивиден') || lc.includes('купон');
@@ -2518,13 +2630,9 @@ document.addEventListener('DOMContentLoaded', function() {
       let termCellHtml;
 
       if (isDivOrCoupon) {
-        // Для дивидендов/купонов:
-        // На ПК: прочерки в обеих колонках
-        // На мобильных: цена закрытия + комментарий под ним
         resultCellHtml = `<span class="desktop-only">—</span><span class="only-mobile">${row['Цена закрытия'] ?? ''}</span>`;
         termCellHtml = `<span class="desktop-only">—</span><span class="only-mobile">${row['Комментарий'] || ''}</span>`;
       } else {
-        // Для обычных сделок оставляем как было
         resultCellHtml = (status === 'Открыта' ? '—' : resHtml);
         termCellHtml = row['Срок'] || '';
       }
@@ -2541,14 +2649,11 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
       tbody.appendChild(tr);
     });
-
-    // KPI (считаем по фактически отрендеренным строкам)
     const rows = tbody.querySelectorAll('tr');
     document.getElementById('kpi-total').textContent  = rows.length;
     document.getElementById('kpi-open').textContent   = [...rows].filter(r=>r.dataset.status==='open').length;
     document.getElementById('kpi-closed').textContent = [...rows].filter(r=>r.dataset.status==='closed').length;
 
-    // Поиск с автодополнением
     const searchBox = document.getElementById('searchBox');
     const suggestionsContainer = document.getElementById('searchSuggestions');
     const emitents = [...new Set(data.map(row => row['Эмитент'] || '').filter(Boolean))];
@@ -2559,7 +2664,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const q = this.value.trim().toLowerCase();
       currentSuggestionIndex = -1;
       
-      // Показываем подсказки
       if (q.length > 0) {
         filteredSuggestions = emitents.filter(emitent => 
           emitent.toLowerCase().startsWith(q)
@@ -2585,11 +2689,9 @@ document.addEventListener('DOMContentLoaded', function() {
         filteredSuggestions = [];
       }
       
-      // Фильтруем таблицу
       filterByEmitent(q);
     });
 
-    // Обработка клавиш для навигации
     searchBox.addEventListener('keydown', function(e) {
       if (suggestionsContainer.style.display === 'block') {
         if (e.key === 'ArrowDown') {
@@ -2611,7 +2713,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    // Скрываем подсказки при клике вне поля
     document.addEventListener('click', function(e) {
       if (!searchBox.contains(e.target) && !suggestionsContainer.contains(e.target)) {
         hideSuggestions();
@@ -2619,11 +2720,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function highlightSuggestion(index) {
-      // Сбрасываем все подсветки
       const items = suggestionsContainer.querySelectorAll('.suggestion-item');
       items.forEach(item => item.classList.remove('suggestion-active'));
       
-      // Подсвечиваем выбранный элемент
       if (index >= 0 && index < items.length) {
         items[index].classList.add('suggestion-active');
         currentSuggestionIndex = index;
@@ -2643,7 +2742,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedEmitent = filteredSuggestions[index];
         searchBox.value = selectedEmitent;
         
-        // Устанавливаем курсор в конец текста
         setTimeout(() => {
           searchBox.focus();
           searchBox.setSelectionRange(selectedEmitent.length, selectedEmitent.length);
@@ -2667,14 +2765,10 @@ document.addEventListener('DOMContentLoaded', function() {
         tr.style.display = emitentText.includes(q) ? '' : 'none';
       });
     }
-
-    // Глобальные функции для обработки событий мыши
     window.highlightSuggestion = highlightSuggestion;
     window.resetSuggestionHighlight = resetSuggestionHighlight;
     window.selectSuggestion = selectSuggestion;
     window.hideSuggestions = hideSuggestions;
-
-    // Фильтры
     const buttons=document.querySelectorAll('button.filter');
     let activeFilter='all';
     buttons.forEach(btn=>{
